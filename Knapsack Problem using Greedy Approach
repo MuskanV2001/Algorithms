@@ -1,0 +1,100 @@
+#include<stdio.h>
+
+int max_wgt;
+
+void insert_sack(int w[100], int p[100],int n){
+    
+    int i;
+    float earned_profit=0.00,fraction_wgt=0.00;
+    float remain_wgt=0.00;
+    remain_wgt=max_wgt;
+    
+    printf("\nIntial Capacity of Sack : %0.2f",remain_wgt);
+    
+    
+        for(i=0;i<n;i++){
+            if(remain_wgt!=0){
+                if(w[i]<=remain_wgt){
+                    earned_profit=earned_profit+p[i];
+                    remain_wgt=remain_wgt-w[i];
+                    printf("\n\nItem put into sack:\t WEIGHT- %d  PROFIT- %d",w[i],p[i]);
+                    printf("\nProfit Earned : %0.2f",earned_profit);
+                    printf("\nRemaining capacity of Sack : %0.2f",remain_wgt);
+                }
+                else{
+                    earned_profit = earned_profit + ((float)(remain_wgt/w[i])*p[i]);
+                    
+                    printf("\n\nItem put into sack:\t WEIGHT- %d  PROFIT- %d",w[i],p[i]);
+                    printf("\nFraction of weight taken : %0.2f",remain_wgt/w[i]);
+                    printf("\nCorresponding fraction of profit: %0.2f",(remain_wgt/w[i])*p[i]);
+                    remain_wgt=0;
+                    printf("\nRemaining capacity of Sack : %0.2f",remain_wgt);
+                }
+            }
+        }
+    
+   
+    printf("\n\nMaximum Profit Earned: %0.2f",earned_profit);
+}
+
+
+
+void sort(int w[100], int p[100], int n){
+	
+	int temp,temp2;
+	for(int k=0;k<n;k++){
+		for(int m=k+1;m<n;m++){
+			if( (p[m]/w[m]) > (p[k]/w[k]) ){
+				
+				temp= w[m];
+				w[m]=w[k];
+				w[k]=temp;
+				
+				temp2= p[m];
+				p[m]=p[k];
+				p[k]=temp2;
+				
+			}
+		}
+	}
+	printf("\nAfter sorting the ratio of PROFITS/WEIGHTS , order is:\n");
+	
+	printf("\nWeights :");
+	for (int l=0;l<n;l++){
+		printf(" %d |",w[l]);
+	}	
+	printf("\nProfits :");
+	for(int t=0;t<n;t++)
+		printf(" %d |",p[t]);
+	
+	printf("\n_______________________________________________________\n");	
+	insert_sack(w,p,n);
+}
+
+
+
+
+int main(){
+	int wgt[100],profit[100],n,i;
+	
+	printf("\n\tKNAPSACK ALGORITHM\n");
+	printf("\nEnter the maximum capacity of the sack: ");
+	scanf("%d",&max_wgt);
+	
+	printf("\nEnter the number of items: ");
+	scanf("%d",&n);
+	printf("\nEnter the item particulars: \n");
+	for (i=0;i<n;i++){
+		printf("\n    Item %d",i+1);
+		printf(" \n -----------");
+		printf("\n  Weight: ");
+		scanf("%d",&wgt[i]);
+		printf("  Profit: ");
+		scanf("%d",&profit[i]);
+	}
+	
+	sort(wgt,profit,n);
+	
+}
+	
+	
